@@ -1,0 +1,10 @@
+(MDP)
+	solar_japan_p-10_true
+(Agents)
+	grena-tracker,0
+	fixed-panel,1
+(Params)
+	instances : 1
+	episodes : 1
+	steps : 28800
+	track_disc_reward : False

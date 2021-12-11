@@ -1,0 +1,22 @@
+{
+    "MDP": {
+        "name": "<class 'solarOOMDP.SolarOOMDPClass.SolarOOMDP'>",
+        "params": {
+            "gamma": 0.99,
+            "step_cost": 0
+        }
+    },
+    "AGENTS": {
+        "<class 'simple_rl.agents.FixedPolicyAgentClass.FixedPolicyAgent'>": {
+            "params": {},
+            "index": 1
+        }
+    },
+    "MISC": {
+        "instances": 1,
+        "episodes": 1,
+        "steps": 28800,
+        "track_disc_reward": false
+    },
+    "FUNC": "run_agents_on_mdp"
+}

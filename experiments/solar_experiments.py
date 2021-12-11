@@ -54,7 +54,7 @@ def _make_mdp(loc, percept_type, panel_step, dual_axis=False, time_per_step=15.0
             "image":(True, True),
         }[percept_type]
     except KeyError:
-        print "Error: percept type unknown ('" + str(percept_type) + "''). Choose one of: ['angles', 'image']."
+        print ("Error: percept type unknown ('" + str(percept_type) + "''). Choose one of: ['angles', 'image'].")
         quit()
 
     # Location.
@@ -216,6 +216,8 @@ def main():
     num_days = 200
     per_hour = True
     loc, percept_type, dual_axis = parse_args()
+    loc = "japan"
+    percept_type = "angles"
     time_per_step = 10.0 if not dual_axis else 20.0 # in minutes.
     steps = int(24*(60 / time_per_step)*num_days)
     panel_step = 10 if not dual_axis else 20
@@ -224,7 +226,7 @@ def main():
     # Set experiment # episodes and # instances.
     episodes = 1 if not dual_axis else 100
     episodes = 1 if num_days == 365 else episodes
-    instances = 50
+    instances = 1
 
     # If per hour is true, plots every hour long reward chunk, otherwise every day.
     rew_step_count = (steps / num_days ) / 24 if per_hour else (steps / num_days)

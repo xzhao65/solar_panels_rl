@@ -1,9 +1,12 @@
 # Python imports.
 import math as m
 import numpy as np
+import os
+from  pysolar import radiation
+from pysolar import numeric as math
 
 # Misc. imports.
-from Pysolar import solar, radiation #capitalize to get it to work?
+from pysolar import solar, radiation #capitalize to get it to work?
 
 CLOUD_DIFFUS_FACTOR = 1.0 #0.85 # 10% of light is blocked
 
@@ -13,10 +16,10 @@ def _write_datum_to_file(mdp_name, agent, datum, datum_name):
     out_file.close()
 
 def _compute_sun_altitude(latitude_deg, longitude_deg, time):
-    return solar.GetAltitude(latitude_deg, longitude_deg, time)
+    return solar.get_altitude(latitude_deg, longitude_deg, time)
 
 def _compute_sun_azimuth(latitude_deg, longitude_deg, time):
-    return solar.GetAzimuth(latitude_deg, longitude_deg, time)
+    return solar.get_azimuth(latitude_deg, longitude_deg, time)
 
 # --- Radiation hitting the surface of the Earth ---
 
@@ -139,10 +142,10 @@ def _compute_reflective_radiation_tilt_factor(panel_ns_deg, panel_ew_deg):
 def _get_radiation_direct(utc_datetime, sun_altitude_deg):
     # from Masters, p. 412
     if 0 < sun_altitude_deg < 180:
-        day = solar.GetDayOfYear(utc_datetime)
-        flux = radiation.GetApparentExtraterrestrialFlux(day)
-        optical_depth = radiation.GetOpticalDepth(day)
-        air_mass_ratio = radiation.GetAirMassRatio(sun_altitude_deg)
+        day = math.tm_yday(utc_datetime)
+        flux = radiation.get_apparent_extraterrestrial_flux(day)
+        optical_depth = radiation.get_optical_depth(day)
+        air_mass_ratio = radiation.get_air_mass_ratio(sun_altitude_deg)
         return flux * m.exp(-1 * optical_depth * air_mass_ratio)
     else:
         return 0.0

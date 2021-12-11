@@ -47,11 +47,11 @@ class SolarOOMDP(OOMDP):
 
             # Error check the lat/long.
         elif abs(latitude_deg) > 90 or abs(longitude_deg) > 180:
-            print "Error: latitude must be between [-90, 90], longitude between [-180,180]. Lat:", latitude_deg, "Long:", longitude_deg
+            print ("Error: latitude must be between [-90, 90], longitude between [-180,180]. Lat:", latitude_deg, "Long:", longitude_deg)
             quit()
 
         if mode_dict['cloud_mode'] and not mode_dict['image_mode']:
-            print "Warning (SolarOOMDP): Clouds were set to active but image mode is off. No cloud simulation supported for non-image-mode."
+            print ("Warning (SolarOOMDP): Clouds were set to active but image mode is off. No cloud simulation supported for non-image-mode.")
             mode_dict['cloud_mode'] = False
 
         # Mode information
@@ -90,9 +90,9 @@ class SolarOOMDP(OOMDP):
         OOMDP.__init__(self, SolarOOMDP.ACTIONS, self._transition_func, self._reward_func, init_state=init_state)
 
     def get_bandit_actions(self):
-        ns = [str(x) for x in xrange(-90, 91, self.panel_step)]
+        ns = [str(x) for x in range(-90, 91, self.panel_step)]
         if self.dual_axis:
-            ew = [str(x) for x in xrange(-90, 91, self.panel_step)]
+            ew = [str(x) for x in range(-90, 91, self.panel_step)]
         else:
             ew = [str(0)]
 
@@ -119,7 +119,7 @@ class SolarOOMDP(OOMDP):
 
     def _get_default_panel_obj_list(self):
         panels = []
-        for i in xrange(self.sqrt_num_panels**2):
+        for i in range(self.sqrt_num_panels**2):
             # Make panel object.
             panel_attributes = {}
             panel_attributes["angle_ew"] = 0.0
@@ -157,7 +157,7 @@ class SolarOOMDP(OOMDP):
 
         # Generate info for each cloud.
         dx, dy = 1, 0
-        for i in xrange(num_clouds):
+        for i in range(num_clouds):
             x = random.randint(0, self.img_dims)
             y = random.randint(0, self.img_dims)
             rx = random.randint(3,6)
@@ -178,7 +178,7 @@ class SolarOOMDP(OOMDP):
     # --- REWARD AND TRANSITION FUNC ---
     # ----------------------------------
 
-    def _reward_func(self, state, action):
+    def _reward_func(self, state, action,next_state):
         '''
         Args:
             state (OOMDP State)
@@ -290,8 +290,8 @@ class SolarOOMDP(OOMDP):
         optimal_reward = -.001
 
         # Iterate over all possible panel angles.
-        for panel_ew_deg in xrange(-90, 90, 5):
-            for panel_ns_deg in xrange(-90, 90, 5):
+        for panel_ew_deg in range(-90, 90, 5):
+            for panel_ns_deg in range(-90, 90, 5):
 
                 # Check reward.
                 reward = self._compute_flux(sun_altitude_deg, sun_azimuth_deg, panel_ns_deg, panel_ew_deg)
@@ -371,7 +371,7 @@ class SolarOOMDP(OOMDP):
             else:
                 # Move all panels.
                 new_panels = []
-                for i in xrange(self.sqrt_num_panels**2):
+                for i in range(self.sqrt_num_panels**2):
 
                     next_panel = self._create_moved_panel(state, action, panel_index=i)
 
@@ -490,11 +490,11 @@ class SolarOOMDP(OOMDP):
         '''
 
         if action not in SolarOOMDP.ACTIONS + self.get_optimal_actions() + self.get_bandit_actions():
-            print "Error: the action provided (" + str(action) + ") was invalid."
+            print ("Error: the action provided (" + str(action) + ") was invalid.")
             quit()
 
         if not isinstance(state, SolarOOMDPState):
-            print "Error: the given state (" + str(state) + ") was not of the correct class."
+            print ("Error: the given state (" + str(state) + ") was not of the correct class.")
             quit()
 
 
